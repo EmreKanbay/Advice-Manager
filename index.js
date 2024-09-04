@@ -3,6 +3,7 @@ require('dotenv').config()
 const pg = require("pg")
 const markdownint = require('markdown-it')
 const md = markdownint()
+var he = require('he');
 
 const {Pool, escapeLiteral} = pg
 
@@ -36,6 +37,8 @@ const construct = async (x, ...values) => {
 
 var page;
 
+ 
+
 app.use("/", (req, res, next)=> {
      page = construct`
 
@@ -43,9 +46,8 @@ app.use("/", (req, res, next)=> {
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/sindresorhus/github-markdown-css/main/github-markdown-light.css">
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" integrity="sha512-PEsccDx9jqX6Dh4wZDCnWMaIO3gAaU0j46W//sSqQhUQxky6/eHZyeB3NrXD2xsyugAKd4KPiDANkcuoEa2JuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.6.1/github-markdown-light.css" integrity="sha512-tVO0ZLV54CEoiM+i1hvfZGcopGR3rxyyC3L2/P/6NRTVXlrp4OKyTFunluVG1BRNasDLnm6ZRPDKBGM0CkS99Q==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -136,13 +138,13 @@ ${async ()=> {
   var x =  String(record.rows.map(t => {
         return `
 
-        <div data-title='${t.title}' data-id='${t.id}' data-date='${new Date(t.date * 1000)}' data-source='${t.source}' data-raw='${t.content_raw}' "  class="advice-element">
+        <div data-title='${he.encode(t.title)}' data-id='${t.id}' data-date='${t.date}' data-source='${he.encode(t.source)}' data-raw='${he.encode(t.content_raw)}' "  class="advice-element">
         
-        
-        <details class="markdown-body">
+         <details class="markdown-body">
         <summary>${t.title}</summary>
         ${t.content_rendered}
            <cite>-${t.source}</cite><br>
+           <cite>-${new Date(t.date * 1).toString()}</cite><br>
           <button class="edit">Edit</button>
         <button  class="cancel-edit">Cancel Edit</button>
         <button class="delete">Delete</button>
@@ -256,8 +258,7 @@ display:none
 
 
 
-
-
+ 
 
 document.querySelector("#form-edit").addEventListener("submit" , async (e)=> {
 
