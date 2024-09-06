@@ -48,7 +48,7 @@ app.use("/", (req, res, next)=> {
   <head>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" integrity="sha512-PEsccDx9jqX6Dh4wZDCnWMaIO3gAaU0j46W//sSqQhUQxky6/eHZyeB3NrXD2xsyugAKd4KPiDANkcuoEa2JuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.6.1/github-markdown-light.css" integrity="sha512-tVO0ZLV54CEoiM+i1hvfZGcopGR3rxyyC3L2/P/6NRTVXlrp4OKyTFunluVG1BRNasDLnm6ZRPDKBGM0CkS99Q==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.6.1/github-markdown-dark.css" integrity="sha512-tVO0ZLV54CEoiM+i1hvfZGcopGR3rxyyC3L2/P/6NRTVXlrp4OKyTFunluVG1BRNasDLnm6ZRPDKBGM0CkS99Q==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -57,35 +57,35 @@ app.use("/", (req, res, next)=> {
   <body>
 
   <style>
+  html {
+  scroll-behavior: smooth;
+}
+  
   body{
   overflow-x:hidden;
   min-height:100vh;
-  background-repeat:no-repeat;
-  background-size: 100%;
+   background-repeat:no-repeat;
   
-   background-image: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
-            linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
-            linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+  background-image: linear-gradient(50deg,  hsl(90, 0%, 5%)  25%, hsl(90, 0%, 10%) 25% 50%, hsl(90, 0%, 15%) 50% 75%, hsl(90, 0%, 20%) 75% 100%);
+
   }
   </style>
+
+  <h1 style="text-align:center;color:white;font-family:sans-serif">Advice Manager</h1>
 
 
 <form class="visible"  id="form-add">
 
 
-<h1>Add Advices</h1>
+ 
+
+ <input placeholder="Add Title..." id="title" type="text" /> <br>
+<br>
+
+<textarea placeholder="Add Content..." id="content"></textarea><br>
 
 
-<span>Title: </span>
-<input id="title" type="text" /> <br>
-
-<span>Advice: </span><br>
-
-<textarea id="content"></textarea><br>
-
-
-<span>Source: </span>
-<input id="source" type="text" /> 
+  <input placeholder="Add Source..." id="source" type="text" /> 
 
 <input id="submit" type="submit">
 </form>
@@ -94,18 +94,15 @@ app.use("/", (req, res, next)=> {
 <form data-current-id=""  class=""  id="form-edit">
 
 
-<h1>Edit Advice</h1>
+ 
+ <input id="title-edit" type="text" /> <br>
 
-<span>Title: </span>
-<input id="title-edit" type="text" /> <br>
-
-<span>Edit Advice: </span><br>
+ <br>
 
 <textarea data-id="" id="content-edit"></textarea><br>
 
 
-<span>Source: </span>
-<input id="source-edit" type="text" /> 
+ <input id="source-edit" type="text" /> 
 
 <input id="submit-edit" value="save edit" type="submit">
 </form>
@@ -152,7 +149,7 @@ ${async ()=> {
         return `
 
          
-         <details data-title='${he.encode(t.title)}' data-id='${t.id}' data-date='${t.date}' data-source='${he.encode(t.source)}' data-raw='${he.encode(t.content_raw)}' "  name="details" class="markdown-body advice-element">
+         <details onclick="window.scrollTo({ top: 0 });" data-title='${he.encode(t.title)}' data-id='${t.id}' data-date='${t.date}' data-source='${he.encode(t.source)}' data-raw='${he.encode(t.content_raw)}' "  name="details" class="markdown-body advice-element">
         <summary>${t.title}</summary>
         ${t.content_rendered}
            <cite>-${t.source}</cite><br>
@@ -198,6 +195,45 @@ ${String(
 
 <style>
 
+ 
+input[type=text]{
+    outline: none;
+    padding: .5rem 1rem;
+
+background:rgb(0,0,0,0);
+border: 1px black solid;
+border-radius: 1rem;
+box-sizing:border-box;
+width:100%;
+backdrop-filter: blur(20px);
+color: white;
+font-size:3rem;
+
+}
+
+ 
+textarea{
+    outline: none;
+color: white;
+
+    padding: .5rem 1rem;
+
+background:rgb(0,0,0,0);
+border: 1px black solid;
+border-radius: 1rem;
+backdrop-filter: blur(20px);
+
+box-sizing:border-box;
+width:100%;
+font-size:1.5rem;
+
+}
+
+::placeholder {
+  color: white;
+  opacity: .5; /* Firefox */
+}
+
 .advice-element{
  
     flex-grow:1;
@@ -209,14 +245,16 @@ ${String(
 details summary{
  box-sizing:border-box;
 padding: .4rem .4rem .4rem .4rem;
-
+background:hsl(90,  0%, 15%);
+color:white;
+ 
 height:100%;
 cursor:pointer;
  
 }
 
  details[open] summary{
- border-bottom: 1px solid black;
+ border-bottom: 1px solid hsl(0, 0%, 50%);
 padding: 0 1rem 1rem 0;
 
 
@@ -227,14 +265,23 @@ height:initial;
 
 .advice-element.tttt{
 order:3}
-details{
-order: 2;
  
-border-radius:.5rem;
+
+details{
+background:hsl(90,  0%, 15%);
+
+ padding:.4rem;
+ border:solid hsl(0, 0%, 40%) 1px;
+ order: 2;
+ border-radius:.7rem;
+ box-sizing:border-box;
 
 }
 
  details[open]{
+background:hsl(90,  0%, 15%);
+ color:white;
+
 order: 1;
 
  box-sizing:border-box;
@@ -271,7 +318,7 @@ display:none;
 box-sizing:border-box;
 width:100%;
 resize:vertical;
-height: 200px;
+height: 400px;
 
 }
 
