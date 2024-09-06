@@ -46,6 +46,7 @@ app.use("/", (req, res, next)=> {
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" integrity="sha512-PEsccDx9jqX6Dh4wZDCnWMaIO3gAaU0j46W//sSqQhUQxky6/eHZyeB3NrXD2xsyugAKd4KPiDANkcuoEa2JuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.6.1/github-markdown-light.css" integrity="sha512-tVO0ZLV54CEoiM+i1hvfZGcopGR3rxyyC3L2/P/6NRTVXlrp4OKyTFunluVG1BRNasDLnm6ZRPDKBGM0CkS99Q==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
     <meta charset="UTF-8">
@@ -55,6 +56,18 @@ app.use("/", (req, res, next)=> {
    </head>
   <body>
 
+  <style>
+  body{
+  overflow-x:hidden;
+  min-height:100vh;
+  background-repeat:no-repeat;
+  background-size: 100%;
+  
+   background-image: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+            linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+            linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%);
+  }
+  </style>
 
 
 <form class="visible"  id="form-add">
@@ -140,7 +153,7 @@ ${async ()=> {
 
         <div data-title='${he.encode(t.title)}' data-id='${t.id}' data-date='${t.date}' data-source='${he.encode(t.source)}' data-raw='${he.encode(t.content_raw)}' "  class="advice-element">
         
-         <details class="markdown-body">
+         <details  name="details" class="markdown-body">
         <summary>${t.title}</summary>
         ${t.content_rendered}
            <cite>-${t.source}</cite><br>
@@ -187,7 +200,26 @@ ${String(
 
 <style>
 
+.advice-element{
+ 
+    flex-grow:1;
+ 		min-width: 150px;
+    max-width: 250px;
+}
 
+
+details{
+
+padding: .4rem .8rem;
+border-radius:.5rem;
+
+}
+
+.advice-element > details[open]{
+
+min-width:100%;
+
+}
 
 
 #form-edit.visible{
@@ -209,12 +241,6 @@ display:none;
 }
 
 
-.advice-element{
- 
-    flex-grow:1;
- 		min-width: 150px;
-    max-width: 250px;
-}
 
 
 
@@ -238,6 +264,7 @@ height: 200px;
 
 
 #advice-list{
+margin-top:1rem;
 
 gap:1rem;
 width:100%;
