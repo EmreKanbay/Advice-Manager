@@ -151,9 +151,8 @@ ${async ()=> {
   var x =  String(record.rows.map(t => {
         return `
 
-        <div data-title='${he.encode(t.title)}' data-id='${t.id}' data-date='${t.date}' data-source='${he.encode(t.source)}' data-raw='${he.encode(t.content_raw)}' "  class="advice-element">
-        
-         <details  name="details" class="markdown-body">
+         
+         <details data-title='${he.encode(t.title)}' data-id='${t.id}' data-date='${t.date}' data-source='${he.encode(t.source)}' data-raw='${he.encode(t.content_raw)}' "  name="details" class="markdown-body advice-element">
         <summary>${t.title}</summary>
         ${t.content_rendered}
            <cite>-${t.source}</cite><br>
@@ -167,8 +166,7 @@ ${async ()=> {
 
      
         
-        </div>
-
+ 
 
 
 `;
@@ -187,7 +185,7 @@ ${String(
     2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3,
   ].map(t => {
     return `
-        <div style="height:0" class="advice-element">      
+        <div style="height:0" class="advice-element tttt">      
         </div>
 `;
   }),
@@ -208,14 +206,39 @@ ${String(
 }
 
 
-details{
+details summary{
+ box-sizing:border-box;
+padding: .4rem .4rem .4rem .4rem;
 
-padding: .4rem .8rem;
+height:100%;
+cursor:pointer;
+ 
+}
+
+ details[open] summary{
+ border-bottom: 1px solid black;
+padding: 0 1rem 1rem 0;
+
+
+height:initial;
+}
+
+
+
+.advice-element.tttt{
+order:3}
+details{
+order: 2;
+ 
 border-radius:.5rem;
 
 }
 
-.advice-element > details[open]{
+ details[open]{
+order: 1;
+
+ box-sizing:border-box;
+padding: 1rem 1rem 1rem 1rem;
 
 min-width:100%;
 
@@ -266,11 +289,9 @@ height: 200px;
 #advice-list{
 margin-top:1rem;
 
-gap:1rem;
-width:100%;
 display:flex;
-flex-wrap:wrap;
-
+flex-wrap: wrap;
+gap:.5rem;
 }
 
 .cancel-edit{
@@ -350,12 +371,12 @@ document.querySelectorAll(".edit").forEach(t => {t.style.display="none"})
      document.querySelector("#form-edit").classList.add("visible")
   document.querySelector("#form-add").classList.remove("visible")
  
-  document.querySelector("#form-edit").setAttribute("data-current-id", t.parentNode.parentNode.getAttribute("data-id") )
+  document.querySelector("#form-edit").setAttribute("data-current-id", t.parentNode.getAttribute("data-id") )
 
 
-    document.querySelector("#content-edit").innerHTML = t.parentNode.parentNode.getAttribute("data-raw")
-  document.querySelector("#source-edit").setAttribute("value",  t.parentNode.parentNode.getAttribute("data-source"))
-  document.querySelector("#title-edit").setAttribute("value",  t.parentNode.parentNode.getAttribute("data-title"))
+    document.querySelector("#content-edit").innerHTML = t.parentNode.getAttribute("data-raw")
+  document.querySelector("#source-edit").setAttribute("value",  t.parentNode.getAttribute("data-source"))
+  document.querySelector("#title-edit").setAttribute("value",  t.parentNode.getAttribute("data-title"))
 
 
 
@@ -373,7 +394,7 @@ document.querySelectorAll(".delete").forEach(t => {t.addEventListener("click", a
       'Content-Type': 'application/json'
     },
     method:"delete",
-    body: JSON.stringify({id: t.parentNode.parentNode.getAttribute("data-id")})
+    body: JSON.stringify({id: t.parentNode.getAttribute("data-id")})
     
     
     }) 
