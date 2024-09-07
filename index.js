@@ -11,9 +11,10 @@ const {Pool, escapeLiteral} = pg
 const app = express()
 
 const pool = new Pool({
-
-    connectionString: process.env.PG_CONENCTION_STRING
-
+    user: process.env.DB_USER, // e.g. 'my-user'
+    password: process.env.DB_PASS, // e.g. 'my-user-password'
+    database: process.env.DB_NAME, // e.g. 'my-database'
+    host: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
 })
  
 const construct = async (x, ...values) => {
