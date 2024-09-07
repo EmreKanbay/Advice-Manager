@@ -11,11 +11,7 @@ const {Pool, escapeLiteral} = pg
 const app = express()
 
 const pool = new Pool({
-    // user: process.env.PG_CONENCTION_USERNAME, 
-    // password: process.env.PG_CONENCTION_PASSWORD,
-    // host: process.env.PG_CONENCTION_HOST,
-    // port: process.env.PG_CONENCTION_PORT, 
-    // database: process.env.PG_CONENCTION_DB, 
+
     connectionString: process.env.PG_CONENCTION_STRING
 
 })
@@ -211,7 +207,7 @@ input[type=text]{
     padding: .5rem 1rem;
 
 background:rgb(0,0,0,0);
-border: 1px black solid;
+border: 1px white solid;
 border-radius: 1rem;
 box-sizing:border-box;
 width:100%;
@@ -223,13 +219,13 @@ font-size:3rem;
 
  
 textarea{
-    outline: none;
+     outline: none;
 color: white;
 
     padding: .5rem 1rem;
 
 background:rgb(0,0,0,0);
-border: 1px black solid;
+border: 1px white solid;
 border-radius: 1rem;
 backdrop-filter: blur(20px);
 
