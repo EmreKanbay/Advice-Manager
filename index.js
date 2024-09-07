@@ -7,6 +7,7 @@ var he = require('he');
 
 const {Pool, escapeLiteral} = pg
 
+ 
 const app = express()
 
 const pool = new Pool({
@@ -513,7 +514,7 @@ app.route("/")
 
   console.log(req.body)
 
-  const text = 'INSERT INTO advices (content_raw, content_rendered, source,date, title) VALUES ($1, $2, $3, $4, $5)'
+  const text = 'INSERT INTO advices (id,content_raw, content_rendered, source,date, title) VALUES (DEFAULT ,$1, $2, $3, $4, $5)'
 const values = [req.body.content, md.render(req.body.content),req.body.source, Date.now(), req.body.title ]
 
     await pool.query(text, values)
