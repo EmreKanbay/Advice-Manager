@@ -10,28 +10,37 @@ const {Pool, escapeLiteral} = pg
 const app = express()
 
 const pool = new Pool({
-    user: process.env.PG_CONENCTION_USERNAME, 
-    password: process.env.PG_CONENCTION_PASSWORD,
-    host: process.env.PG_CONENCTION_HOST,
-    port: process.env.PG_CONENCTION_PORT, 
-    database: process.env.PG_CONENCTION_DB, 
+    // user: process.env.PG_CONENCTION_USERNAME, 
+    // password: process.env.PG_CONENCTION_PASSWORD,
+    // host: process.env.PG_CONENCTION_HOST,
+    // port: process.env.PG_CONENCTION_PORT, 
+    // database: process.env.PG_CONENCTION_DB, 
+    connectionString: process.env.PG_CONENCTION_STRING
 
 })
  
 const construct = async (x, ...values) => {
-	var rendered = "";
-	for (let u = 0; u < x.length; u++) {
-		rendered = rendered.concat(x[u]);
-		if (u < x.length - 1) {
-			if (typeof values[u] == "function") {
-				rendered = rendered.concat(await values[u]());
-			} else {
-				rendered = rendered.concat(values[u]);
-			}
-		}
-	}
+  try{
 
-	return rendered;
+    var rendered = "";
+    for (let u = 0; u < x.length; u++) {
+      rendered = rendered.concat(x[u]);
+      if (u < x.length - 1) {
+        if (typeof values[u] == "function") {
+          rendered = rendered.concat(await values[u]());
+        } else {
+          rendered = rendered.concat(values[u]);
+        }
+      }
+    }
+  
+    return rendered;
+
+  }catch(e){
+    console.log("Error in templating")
+    return "Error"
+  }
+
 };
 
 
