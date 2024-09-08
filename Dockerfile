@@ -11,10 +11,14 @@ ARG NODE_VERSION=18.0.0
 FROM node:${NODE_VERSION}-alpine
 
 # Use production node environment by default.
-ENV NODE_ENV production
+ 
 
-
-ENV PG_CONENCTION_STRING ""
+ 
+ENV PG_HOST ""
+ENV PG_PORT ""
+ENV PG_USER ""
+ENV PG_PASSWORD ""
+ENV PG_DATABASE ""
  
 
 

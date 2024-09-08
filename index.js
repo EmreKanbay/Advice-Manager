@@ -5,17 +5,19 @@ const markdownint = require('markdown-it')
 const md = markdownint()
 var he = require('he');
 
-const {Pool, escapeLiteral} = pg
+const {Pool} = pg
 
  
 const app = express()
 
 const pool = new Pool({
-    user: process.env.DB_USER, // e.g. 'my-user'
-    password: process.env.DB_PASS, // e.g. 'my-user-password'
-    database: process.env.DB_NAME, // e.g. 'my-database'
-    host: process.env.INSTANCE_UNIX_SOCKET, // e.g. '/cloudsql/project:region:instance'
+    host: process.env.PG_HOST, // e.g. 'my-user'
+    port: process.env.PG_PORT, // e.g. 'my-user-password'
+    user: process.env.PG_USER, // e.g. 'my-database'
+    password: process.env.PG_PASSWORD, // e.g. '/cloudsql/project:region:instance'
+    database: process.env.PG_DATABASE, // e.g. '/cloudsql/project:region:instance'
 })
+ 
  
 const construct = async (x, ...values) => {
   try{
